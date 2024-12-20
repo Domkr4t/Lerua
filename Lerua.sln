@@ -3,12 +3,52 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lerua.Domain", "Lerua.Domain\Lerua.Domain.csproj", "{B98EFC0C-025B-4D2C-A971-4ED23BB69B1D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lerua.Persistance", "Lerua.Persistance\Lerua.Persistance.csproj", "{B2CAD5FE-D61A-41CD-B2FC-3D89EA986926}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8431AD48-8542-494B-AA9D-672EBFA3CA12} = {8431AD48-8542-494B-AA9D-672EBFA3CA12}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lerua.Application", "Lerua.Application\Lerua.Application.csproj", "{8431AD48-8542-494B-AA9D-672EBFA3CA12}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B98EFC0C-025B-4D2C-A971-4ED23BB69B1D} = {B98EFC0C-025B-4D2C-A971-4ED23BB69B1D}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lerua.API", "Lerua.API\Lerua.API.csproj", "{52405154-D2D3-4908-983A-C6A00AB4B032}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8431AD48-8542-494B-AA9D-672EBFA3CA12} = {8431AD48-8542-494B-AA9D-672EBFA3CA12}
+		{B2CAD5FE-D61A-41CD-B2FC-3D89EA986926} = {B2CAD5FE-D61A-41CD-B2FC-3D89EA986926}
+		{B98EFC0C-025B-4D2C-A971-4ED23BB69B1D} = {B98EFC0C-025B-4D2C-A971-4ED23BB69B1D}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B98EFC0C-025B-4D2C-A971-4ED23BB69B1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B98EFC0C-025B-4D2C-A971-4ED23BB69B1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B98EFC0C-025B-4D2C-A971-4ED23BB69B1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B98EFC0C-025B-4D2C-A971-4ED23BB69B1D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2CAD5FE-D61A-41CD-B2FC-3D89EA986926}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2CAD5FE-D61A-41CD-B2FC-3D89EA986926}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2CAD5FE-D61A-41CD-B2FC-3D89EA986926}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2CAD5FE-D61A-41CD-B2FC-3D89EA986926}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8431AD48-8542-494B-AA9D-672EBFA3CA12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8431AD48-8542-494B-AA9D-672EBFA3CA12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8431AD48-8542-494B-AA9D-672EBFA3CA12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8431AD48-8542-494B-AA9D-672EBFA3CA12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52405154-D2D3-4908-983A-C6A00AB4B032}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52405154-D2D3-4908-983A-C6A00AB4B032}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52405154-D2D3-4908-983A-C6A00AB4B032}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52405154-D2D3-4908-983A-C6A00AB4B032}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C05069B-F2D4-423F-AA35-E591E30AB88B}
 	EndGlobalSection
 EndGlobal

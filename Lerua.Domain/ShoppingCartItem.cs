@@ -2,6 +2,10 @@
 {
     public class ShoppingCartItem
     {
+        public ShoppingCartItem()
+        {
+        }
+
         public Guid ProductId { get; set; } // Ссылка на товар
         public int Quantity { get; set; } // Количество
     }
