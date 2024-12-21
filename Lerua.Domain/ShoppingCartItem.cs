@@ -6,7 +6,8 @@
         {
         }
 
-        public Guid ProductId { get; set; } // Ссылка на товар
-        public int Quantity { get; set; } // Количество
+        public Guid ShoppingCartId { get; set; }    // FK -> ShoppingCart
+        public Guid ProductId { get; set; }         // FK -> Product
+        public int Quantity { get; set; }
     }
 }

@@ -8,14 +8,17 @@ namespace Lerua.Persistance.Configurations
     {
         public void Configure(EntityTypeBuilder<ShoppingCartItem> builder)
         {
-            builder.HasKey(sci => new { sci.ProductId });
+            builder.HasKey(sci => new { sci.ShoppingCartId, sci.ProductId });
+
+            builder.HasOne<ShoppingCart>()
+                .WithMany(sc => sc.Items)
+                .HasForeignKey(sci => sci.ShoppingCartId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasOne<Product>()
                 .WithMany()
                 .HasForeignKey(sci => sci.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
-            builder.Property(sci => sci.Quantity)
-                .IsRequired()
-                .HasDefaultValue(1);
         }
     }
 }

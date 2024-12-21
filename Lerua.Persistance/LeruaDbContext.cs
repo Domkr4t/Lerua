@@ -1,16 +1,14 @@
-﻿using Lerua.Domain;
+﻿using Lerua.Application.Interfaces;
+using Lerua.Domain;
 using Lerua.Persistance.Configurations;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 
 namespace Lerua.Persistance
 {
-    public class LeruaDbContext : DbContext
+    public class LeruaDbContext : DbContext, ILeruaDbContext
     {
         public LeruaDbContext(DbContextOptions<LeruaDbContext> options) : base(options)
         {
-            //Database.EnsureDeleted();
-            Database.EnsureCreated();
         }
 
         public DbSet<Product> Products { get; set; }
@@ -36,6 +34,11 @@ namespace Lerua.Persistance
             modelBuilder.ApplyConfiguration(new ShoppingCartItemConfiguration());
 
             base.OnModelCreating(modelBuilder);
+        }
+
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
+        {
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
 }

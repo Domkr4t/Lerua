@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Lerua.Application.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,8 +16,7 @@ namespace Lerua.Persistance
                 options.UseSqlServer(connectionString);
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
             });
-            //services.AddScoped<INoteDbContext>(provider =>
-            //    provider.GetService<NotesDbContext>());
+            services.AddScoped<ILeruaDbContext>(provider => provider.GetService<LeruaDbContext>());
             return services;
         }
     }

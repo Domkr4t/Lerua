@@ -6,8 +6,6 @@ namespace Lerua.Persistance
     {
         public static void Initialize(LeruaDbContext context)
         {
-            context.Database.EnsureCreated();
-
             context.Database.Migrate();
 
             if (!context.Categories.Any())
