@@ -13,6 +13,7 @@ namespace Lerua.Application.Interfaces
         DbSet<Supplier> Suppliers { get; }
         DbSet<User> Users { get; }
         DbSet<ShoppingCart> ShoppingCarts { get; }
+        DbSet<ShoppingCartItem> ShoppingCartItems { get; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

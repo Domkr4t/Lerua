@@ -15,6 +15,9 @@ namespace Lerua.Persistance.Configurations
                 .WithMany()
                 .HasForeignKey(o => o.CustomerId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(sc => sc.OrderItems)
+               .WithOne()
+               .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
