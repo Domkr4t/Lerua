@@ -1,0 +1,131 @@
+﻿@page
+@model Lerua.API.Pages.Customers.IndexModel
+@{
+    ViewData["Title"] = "Клиенты (Customers)";
+}
+
+<h1>Управление клиентами</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form id="createCustomerForm">
+            <div class="mb-3">
+                <label for="fullName" class="form-label">Полное имя</label>
+                <input type="text" id="fullName" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="phoneNumber" class="form-label">Телефон</label>
+                <input type="text" id="phoneNumber" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Создать</button>
+        </form>
+    </div>
+</div>
+
+<h2>Список клиентов</h2>
+<table class="table" id="customersTable">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Email</th>
+            <th>Телефон</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- через JS -->
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            loadCustomers();
+
+            $("#createCustomerForm").submit(function (e) {
+                e.preventDefault();
+
+                let name = $("#fullName").val();
+                let email = $("#email").val();
+                let phone = $("#phoneNumber").val();
+
+                $.ajax({
+                    url: "/api/Customers",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        fullName: name,
+                        email: email,
+                        phoneNumber: phone
+                    }),
+                    success: function (response) {
+                        alert("Клиент создан!");
+                        $("#fullName").val("");
+                        $("#email").val("");
+                        $("#phoneNumber").val("");
+
+                        loadCustomers();
+                    },
+                    error: function (xhr) {
+                        alert("Ошибка при создании клиента: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+
+        function loadCustomers() {
+            $.ajax({
+                url: "/api/Customers",
+                type: "GET",
+                success: function (data) {
+                    renderCustomersTable(data);
+                },
+                error: function (xhr) {
+                    alert("Ошибка при загрузке клиентов: " + xhr.responseText);
+                }
+            });
+        }
+
+        function renderCustomersTable(customers) {
+            let tbody = $("#customersTable tbody");
+            tbody.empty();
+
+            $.each(customers, function (index, customer) {
+                let row = `
+                        <tr>
+                            <td>${customer.fullName}</td>
+                            <td>${customer.email}</td>
+                            <td>${customer.phoneNumber}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm"
+                                        onclick="deleteCustomer('${customer.id}')">
+                                    Удалить
+                                </button>
+                            </td>
+                        </tr>`;
+                tbody.append(row);
+            });
+        }
+
+        function deleteCustomer(customerId) {
+            if (!confirm("Удалить клиента?")) return;
+
+            $.ajax({
+                url: "/api/Customers/" + customerId,
+                type: "DELETE",
+                success: function () {
+                    alert("Клиент удалён");
+                    loadCustomers();
+                },
+                error: function (xhr) {
+                    alert("Ошибка при удалении: " + xhr.responseText);
+                }
+            });
+        }
+    </script>
+}

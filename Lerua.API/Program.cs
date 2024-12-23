@@ -1,4 +1,3 @@
-using AutoMapper;
 using Lerua.Application;
 using Lerua.Persistance;
 
@@ -40,6 +39,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
 
 app.UseEndpoints(endpoints =>
 {

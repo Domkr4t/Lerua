@@ -1,0 +1,125 @@
+﻿@page
+@model Lerua.API.Pages.Suppliers.IndexModel
+@{
+    ViewData["Title"] = "Поставщики (Suppliers)";
+}
+
+<h1>Управление поставщиками</h1>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form id="createSupplierForm">
+            <div class="mb-3">
+                <label for="supplierName" class="form-label">Название поставщика</label>
+                <input type="text" id="supplierName" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="contactInfo" class="form-label">Контактная информация</label>
+                <input type="text" id="contactInfo" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Создать</button>
+        </form>
+    </div>
+</div>
+
+<h2>Список поставщиков</h2>
+<table class="table" id="suppliersTable">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th>Контакты</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- динамически наполняем через JS -->
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // При загрузке страницы - сразу загружаем список
+            loadSuppliers();
+
+            // Обработчик отправки формы
+            $("#createSupplierForm").submit(function (e) {
+                e.preventDefault();
+
+                const name = $("#supplierName").val();
+                const contact = $("#contactInfo").val();
+
+                $.ajax({
+                    url: "/api/Suppliers",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        name: name,
+                        contactInfo: contact
+                    }),
+                    success: function (response) {
+                        alert("Поставщик успешно создан!");
+                        $("#supplierName").val("");
+                        $("#contactInfo").val("");
+
+                        loadSuppliers();
+                    },
+                    error: function (xhr) {
+                        alert("Ошибка при создании: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+
+        function loadSuppliers() {
+            $.ajax({
+                url: "/api/Suppliers",
+                type: "GET",
+                success: function (data) {
+                    renderSuppliersTable(data);
+                },
+                error: function (xhr) {
+                    alert("Ошибка при загрузке поставщиков: " + xhr.responseText);
+                }
+            });
+        }
+
+        function renderSuppliersTable(suppliers) {
+            let tbody = $("#suppliersTable tbody");
+            tbody.empty();
+
+            $.each(suppliers, function (index, supplier) {
+                let row = `
+                        <tr>
+                            <td>${supplier.name}</td>
+                            <td>${supplier.contactInfo}</td>
+                            <td>
+                                <button class="btn btn-danger btn-sm"
+                                        onclick="deleteSupplier('${supplier.id}')">
+                                    Удалить
+                                </button>
+                            </td>
+                        </tr>`;
+                tbody.append(row);
+            });
+        }
+
+        function deleteSupplier(supplierId) {
+            if (!confirm("Удалить поставщика?")) return;
+
+            $.ajax({
+                url: "/api/Suppliers/" + supplierId,
+                type: "DELETE",
+                success: function () {
+                    alert("Поставщик удалён");
+                    loadSuppliers();
+                },
+                error: function (xhr) {
+                    alert("Ошибка при удалении: " + xhr.responseText);
+                }
+            });
+        }
+    </script>
+}

@@ -22,6 +22,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lerua.API", "Lerua.API\Leru
 		{B98EFC0C-025B-4D2C-A971-4ED23BB69B1D} = {B98EFC0C-025B-4D2C-A971-4ED23BB69B1D}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lerua.Tests", "Lerua.Tests\Lerua.Tests.csproj", "{70C55ADA-A611-4B22-A4B1-57C225367131}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{52405154-D2D3-4908-983A-C6A00AB4B032}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52405154-D2D3-4908-983A-C6A00AB4B032}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52405154-D2D3-4908-983A-C6A00AB4B032}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70C55ADA-A611-4B22-A4B1-57C225367131}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70C55ADA-A611-4B22-A4B1-57C225367131}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70C55ADA-A611-4B22-A4B1-57C225367131}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70C55ADA-A611-4B22-A4B1-57C225367131}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

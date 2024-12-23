@@ -10,6 +10,7 @@ namespace Lerua.Application.Products.Queries.GetProductsList
         public string Name { get; set; } = default!;
         public decimal Price { get; set; }
 
+
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Product, ProductLookupDto>()

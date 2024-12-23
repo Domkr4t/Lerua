@@ -1,0 +1,134 @@
+﻿@page
+@model Lerua.API.Pages.Categories.IndexModel
+@{
+    ViewData["Title"] = "Категории";
+}
+
+<h1>Управление категориями</h1>
+
+<!-- Форма для создания категории -->
+<div class="card mb-3">
+    <div class="card-body">
+        <form id="createCategoryForm">
+            <div class="mb-3">
+                <label for="categoryName" class="form-label">Название категории</label>
+                <input type="text" id="categoryName" class="form-control" />
+            </div>
+            <button type="submit" class="btn btn-primary">Создать</button>
+        </form>
+    </div>
+</div>
+
+<h2>Список категорий</h2>
+<table class="table" id="categoriesTable">
+    <thead>
+        <tr>
+            <th>Название</th>
+            <th style="width: 1px;"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Будем динамически наполнять через JavaScript -->
+    </tbody>
+</table>
+
+@section Scripts {
+    <!-- Подключение jQuery, если ещё не подключено в _Layout -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            // 1) При загрузке страницы — подгружаем категории
+            loadCategories();
+
+            // 2) Обработчик сабмита формы
+            $("#createCategoryForm").submit(function (e) {
+                e.preventDefault();
+
+                // Считываем значения из полей
+                const name = $("#categoryName").val();
+
+                // AJAX-запрос (POST) к нашему API
+                $.ajax({
+                    url: "/api/Categories",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        name: name,
+                    }),
+                    success: function (response) {
+                        // response — обычно Guid (ID созданной категории) или что-то аналогичное
+                        console.log("Создана категория с Id=" + response);
+                        alert("Категория успешно создана!");
+
+                        // Очищаем поля
+                        $("#categoryName").val("");
+
+                        // Заново грузим список
+                        loadCategories();
+                    },
+                    error: function (xhr) {
+                        alert("Ошибка при создании категории: " + xhr.responseText);
+                    }
+                });
+            });
+        });
+
+        // Функция для загрузки списка категорий
+        function loadCategories() {
+            $.ajax({
+                url: "/api/Categories",
+                type: "GET",
+                success: function (data) {
+                    // data — это массив категорий
+                    renderCategoriesTable(data);
+                },
+                error: function (xhr) {
+                    alert("Ошибка при загрузке категорий: " + xhr.responseText);
+                }
+            });
+        }
+
+        // Функция для отрисовки таблицы с категориями
+        function renderCategoriesTable(categories) {
+            let tbody = $("#categoriesTable tbody");
+            tbody.empty(); // очищаем, чтобы перерисовать
+
+            $.each(categories, function (index, category) {
+                // Генерируем строку
+                // Добавляем кнопку "Удалить", к которой привязываем обработчик
+                // В data-атрибут можно поместить ID
+                let row = `
+                <tr>
+                    <td>${category.name}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" 
+                                onclick="deleteCategory('${category.id}')">
+                            Удалить
+                        </button>
+                    </td>
+                </tr>`;
+                tbody.append(row);
+            });
+        }
+
+        // Функция для удаления категории по Id
+        function deleteCategory(categoryId) {
+            if (!confirm("Вы действительно хотите удалить эту категорию?")) {
+                return;
+            }
+
+            $.ajax({
+                url: "/api/Categories/" + categoryId,
+                type: "DELETE",
+                success: function() {
+                    alert("Категория удалена");
+                    loadCategories(); // перезагружаем список
+                },
+                error: function(xhr) {
+                    alert("Ошибка при удалении: " + xhr.responseText);
+                }
+            });
+        }
+    </script>
+}
